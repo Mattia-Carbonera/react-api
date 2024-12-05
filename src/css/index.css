@@ -1,0 +1,94 @@
+.container {
+  margin: auto;
+  text-align: center;
+
+  width: 1000px;
+}
+
+/* header */
+form > input {
+  background-color: lightcyan;
+  border: none;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+
+  height: 20px;
+  width: 200px;
+  padding: 0.3rem;
+  margin: 0 0.5rem;
+}
+
+form > .content-input {
+  height: 50px;
+  width: 500px;
+
+  margin-top: 2rem;
+}
+
+form > button {
+  cursor: pointer;
+
+  display: block;
+  margin: 2rem auto;
+
+  background-color: #0c6dfd;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 0.5rem 2rem;
+}
+
+hr {
+  margin: 2rem 0;
+}
+
+/* article section */
+.articles-section ul li {
+  list-style: none;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.button {
+  cursor: pointer;
+
+  margin: 0.2rem;
+
+  background-color: transparent;
+  border: none;
+}
+
+.articles-section .edit {
+  color: green;
+  font-size: 1.2rem;
+}
+
+.articles-section .trash {
+  color: red;
+  font-size: 1.2rem;
+  margin: 0 1rem;
+}
+
+.article-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.article-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#select-published {
+  background-color: lightcyan;
+  border: none;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+
+  padding: 0.3rem;
+  margin: 0 0.5rem;
+}
+
+.checkbox-tag-container {
+  margin-top: 1rem;
+}
