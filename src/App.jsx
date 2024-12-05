@@ -8,21 +8,30 @@ function App() {
     fetch("http://127.0.0.1:3000/posts/")
       .then((res) => res.json())
       .then((data) => {
-        setfetchDataPosts(data[1]);
-      });
+        const articlesArray = data[1];
+        const publishedArticles = articlesArray.filter(
+          (article) => article.published === "yes"
+        );
+        setfetchDataPosts(publishedArticles);
+      })
+      .catch((err) => console.error("Fetch error:", err));
   };
 
   useEffect(() => {
     fetchPost();
   }, []);
-  console.log(fetchDataPosts);
+
+  useEffect(() => {
+    if (fetchDataPosts.length > 0) {
+      setArticleList(fetchDataPosts);
+    }
+  }, [fetchDataPosts]);
 
   const filteredPublishedArticles = fetchDataPosts.filter((artic) => {
     return artic.published === true;
   });
 
   const [articlesList, setArticleList] = useState(filteredPublishedArticles);
-  // console.log(articlesList);
 
   // articles create
   const [articleField, setArticleField] = useState({
@@ -34,9 +43,6 @@ function App() {
     content: "",
     tag: "tag prova",
   });
-
-  // name editor articles
-  const [inputChange, setInputChange] = useState("");
 
   // click handler
   const handleInputChange = (e) => {
@@ -51,11 +57,7 @@ function App() {
       [e.target.name]: e.target.value,
     };
 
-    // console.log(e.target.name, e.target.value);
-    // console.log(newArticlesData);
-
     setArticleField(newArticlesData);
-    // console.log(articleField);
   };
 
   // submit handler fonm
@@ -71,14 +73,23 @@ function App() {
       category: e.target.category.value,
       content: e.target.content.value,
     });
-    // console.log("title: " + e.target.title.value);
-    // console.log("published: " + e.target.value);
 
     const newArticleListFiltered = newArticleList.filter(
       (el) => el.published != "no"
     );
 
     setArticleList(newArticleListFiltered);
+  };
+
+  // delete post
+  const deletePost = (id) => {
+    fetch("http://127.0.0.1:3000/posts/" + id, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setArticleList(data);
+      });
   };
 
   // handle publish article select
@@ -102,15 +113,6 @@ function App() {
     //     : articleItem
     // );
     // setArticleList(newModifyArray);
-  };
-
-  // delete title handler
-  const deleteItemHandler = (articleDeleted) => {
-    const deletedArticles = articlesList.filter((article) => {
-      return article != articleDeleted;
-    });
-
-    setArticleList(deletedArticles);
   };
 
   return (
@@ -212,31 +214,43 @@ function App() {
                       <img src={article.image} alt="Image" />
                       <h2>{article.title}</h2>
                       <span>{article.author}</span>
-                      <span>{article.published}</span>
+                      {/* <span>{article.published}</span> */}
                       <span>{article.tags}</span>
                       <span>{article.content}</span>
                     </div>
                     <div className="edit-card">
-                      <button
-                        onClick={() => deleteItemHandler(article)}
-                        className="button"
-                      >
-                        <i className="fa-solid fa-trash trash"></i>
-                      </button>
-                      <div>
+                      <div className="delete-button">
+                        <button
+                          className="button d-button"
+                          onClick={() => deletePost(article.id)}
+                        >
+                          Elimina
+                        </button>
+                      </div>
+                      {/* <div className="edit-button">
+                        <button
+                          onClick={() => deleteItemHandler(article)}
+                          className="button"
+                        >
+                          <i className="fa-solid fa-trash trash"></i>
+                        </button>
                         <button
                           onClick={() => editItem(article, index)}
                           className="button"
                         >
                           <i className="fa-solid fa-pen-to-square edit"></i>
                         </button>
-                        <input
-                          type="text"
-                          onChange={handleInputChange}
-                          name="modify"
-                          placeholder="Modifica"
-                        />
                       </div>
+                      <div>
+                        <div className="edit-input">
+                          <input
+                            type="text"
+                            onChange={handleInputChange}
+                            name="modify"
+                            placeholder="Modifica"
+                          />
+                        </div>
+                      </div> */}
                     </div>
                   </div>
                 </li>

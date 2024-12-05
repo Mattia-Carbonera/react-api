@@ -80,6 +80,11 @@ hr {
   flex-direction: column;
 }
 
+.edit-card {
+  display: flex;
+  flex-direction: column;
+}
+
 .card {
   max-width: 200px;
   padding: 1rem;
@@ -101,4 +106,10 @@ hr {
 
 .checkbox-tag-container {
   margin-top: 1rem;
+}
+
+.d-button {
+  background-color: red;
+  border-radius: 5px;
+  padding: 0.5rem;
 }
