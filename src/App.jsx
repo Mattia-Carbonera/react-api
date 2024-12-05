@@ -46,6 +46,7 @@ function App() {
 
   // click handler
   const handleInputChange = (e) => {
+    console.log(e.target.value);
     const newArticlesData = {
       ...articleField,
       [e.target.name]: e.target.value,
@@ -98,21 +99,27 @@ function App() {
   };
 
   // edit item handler
-  const editItem = (modifyArticle, index) => {
-    // const modifyArticleList = [...articlesList];
-    // const newModifyArray = modifyArticleList.map((articleItem) =>
-    //   articleItem == modifyArticle
-    //     ? {
-    //         title: "a",
-    //         author: "s",
-    //         published: "yes",
-    //         image: "d",
-    //         category: "f",
-    //         content: "g",
-    //       }
-    //     : articleItem
-    // );
-    // setArticleList(newModifyArray);
+  const handleEditItem = (modifyArticle, index) => {
+    const modifyArticleList = [...articlesList];
+    const newModifyArray = modifyArticleList.map((articleItem) =>
+      articleItem == modifyArticle
+        ? {
+            id: index,
+            title: modifyTitle,
+            content: articleItem.content,
+            image: articleItem.image,
+            tags: articleItem.tags,
+            published: articleItem.published,
+          }
+        : articleItem
+    );
+    setArticleList(newModifyArray);
+  };
+
+  const [modifyTitle, setModifyTitle] = useState("");
+  const handleTitleChange = (e) => {
+    // console.log(e.target.value);
+    setModifyTitle(e.target.value);
   };
 
   return (
@@ -227,15 +234,10 @@ function App() {
                           Elimina
                         </button>
                       </div>
-                      {/* <div className="edit-button">
+                      <div className="edit-button">
                         <button
-                          onClick={() => deleteItemHandler(article)}
-                          className="button"
-                        >
-                          <i className="fa-solid fa-trash trash"></i>
-                        </button>
-                        <button
-                          onClick={() => editItem(article, index)}
+                          // onClick={() => editItem(article, index)}
+                          onClick={() => handleEditItem(article, index)}
                           className="button"
                         >
                           <i className="fa-solid fa-pen-to-square edit"></i>
@@ -245,12 +247,12 @@ function App() {
                         <div className="edit-input">
                           <input
                             type="text"
-                            onChange={handleInputChange}
+                            onChange={handleTitleChange}
                             name="modify"
                             placeholder="Modifica"
                           />
                         </div>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                 </li>
