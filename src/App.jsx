@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./css/App.css";
-import articles from "./db/articles";
 
 function App() {
-  const filteredPublishedArticles = articles.filter((artic) => {
-    return artic.published == "yes";
+  const [fetchDataPosts, setfetchDataPosts] = useState([]);
+
+  const fetchPost = () => {
+    fetch("http://127.0.0.1:3000/posts/")
+      .then((res) => res.json())
+      .then((data) => {
+        setfetchDataPosts(data[1]);
+      });
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, []);
+  console.log(fetchDataPosts);
+
+  const filteredPublishedArticles = fetchDataPosts.filter((artic) => {
+    return artic.published === true;
   });
 
   const [articlesList, setArticleList] = useState(filteredPublishedArticles);
+  // console.log(articlesList);
 
   // articles create
   const [articleField, setArticleField] = useState({
@@ -40,7 +55,7 @@ function App() {
     // console.log(newArticlesData);
 
     setArticleField(newArticlesData);
-    console.log(articleField);
+    // console.log(articleField);
   };
 
   // submit handler fonm
@@ -190,39 +205,42 @@ function App() {
         <div className="articles-section">
           <ul>
             {articlesList.map((article, index) => (
-              <li key={index}>
-                <div className="article-container">
-                  <div className="article-content">
-                    <img src={article.image} alt="Image" />
-                    <h2>{article.title}</h2>
-                    <span>{article.author}</span>
-                    <span>{article.published}</span>
-                    <span>{article.category}</span>
-                    <span>{article.content}</span>
+              <div key={index} className="card">
+                <li>
+                  <div className="article-container">
+                    <div className="article-content">
+                      <img src={article.image} alt="Image" />
+                      <h2>{article.title}</h2>
+                      <span>{article.author}</span>
+                      <span>{article.published}</span>
+                      <span>{article.tags}</span>
+                      <span>{article.content}</span>
+                    </div>
+                    <div className="edit-card">
+                      <button
+                        onClick={() => deleteItemHandler(article)}
+                        className="button"
+                      >
+                        <i className="fa-solid fa-trash trash"></i>
+                      </button>
+                      <div>
+                        <button
+                          onClick={() => editItem(article, index)}
+                          className="button"
+                        >
+                          <i className="fa-solid fa-pen-to-square edit"></i>
+                        </button>
+                        <input
+                          type="text"
+                          onChange={handleInputChange}
+                          name="modify"
+                          placeholder="Modifica"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => deleteItemHandler(article)}
-                    className="button"
-                  >
-                    <i className="fa-solid fa-trash trash"></i>
-                  </button>
-
-                  <div>
-                    <button
-                      onClick={() => editItem(article, index)}
-                      className="button"
-                    >
-                      <i className="fa-solid fa-pen-to-square edit"></i>
-                    </button>
-                    <input
-                      type="text"
-                      onChange={handleInputChange}
-                      name="modify"
-                      placeholder="Modifica"
-                    />
-                  </div>
-                </div>
-              </li>
+                </li>
+              </div>
             ))}
           </ul>
         </div>

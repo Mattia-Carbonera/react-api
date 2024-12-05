@@ -70,6 +70,7 @@ hr {
 
 .article-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -77,6 +78,15 @@ hr {
 .article-content {
   display: flex;
   flex-direction: column;
+}
+
+.card {
+  max-width: 200px;
+  padding: 1rem;
+  margin: 1rem auto;
+
+  border: 1px solid gray;
+  border-radius: 10px;
 }
 
 #select-published {
