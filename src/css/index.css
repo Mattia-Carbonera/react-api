@@ -42,6 +42,12 @@ hr {
 }
 
 /* article section */
+.articles-section ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .articles-section ul li {
   list-style: none;
   padding: 0.5rem;
@@ -88,7 +94,7 @@ hr {
 .card {
   max-width: 200px;
   padding: 1rem;
-  margin: 1rem auto;
+  margin: 1rem 2rem;
 
   border: 1px solid gray;
   border-radius: 10px;
