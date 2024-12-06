@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import "./css/App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 const serverHosting = import.meta.env.VITE_SERVER_HOSTING;
-console.log(serverHosting);
 
 function App() {
+  const [initialArticleArray, setInitialArticleArray] = useState([]);
   const [fetchDataPosts, setfetchDataPosts] = useState([]);
 
   const fetchPost = () => {
@@ -14,6 +15,7 @@ function App() {
         const publishedArticles = articlesArray.filter(
           (article) => article.published === "yes"
         );
+        setInitialArticleArray(articlesArray);
         setfetchDataPosts(publishedArticles);
       })
       .catch((err) => console.error("Fetch error:", err));
@@ -29,8 +31,17 @@ function App() {
     }
   }, [fetchDataPosts]);
 
+  let totalTags = [];
+  initialArticleArray.forEach((article) => {
+    article.tags.map((tag) => {
+      if (!totalTags.includes(tag)) {
+        totalTags.push(tag);
+      }
+    });
+  });
+
   const filteredPublishedArticles = fetchDataPosts.filter((artic) => {
-    return artic.published === true;
+    return artic.published === "yes";
   });
 
   const [articlesList, setArticleList] = useState(filteredPublishedArticles);
@@ -43,21 +54,21 @@ function App() {
     image: "",
     category: "",
     content: "",
-    tag: "tag prova",
+    tag: [],
   });
 
   // click handler
   const handleInputChange = (e) => {
-    // console.log(e.target.value);
+    console.log(e.target.name);
+    console.log(e.target.value);
+    console.log(e.target.checked);
+
     const newArticlesData = {
       ...articleField,
+      [e.target.name]: e.target.checked,
       [e.target.name]: e.target.value,
-      [e.target.name]: e.target.value,
-      [e.target.name]: e.target.value,
-      [e.target.name]: e.target.value,
-      [e.target.name]: e.target.value,
-      [e.target.name]: e.target.value,
-      [e.target.name]: e.target.value,
+
+      // [e.target.name]: e.target.checked,
     };
 
     setArticleField(newArticlesData);
@@ -75,7 +86,9 @@ function App() {
       image: e.target.image.value,
       category: e.target.category.value,
       content: e.target.content.value,
+      tags: [e.target.checked],
     });
+    console.log(newArticleList);
 
     const newArticleListFiltered = newArticleList.filter(
       (el) => el.published != "no"
@@ -179,36 +192,20 @@ function App() {
           </select>
 
           <div className="checkbox-tag-container">
-            <input
-              key={1}
-              onChange={handleInputChange}
-              value={"tag1"}
-              name="checkTag"
-              type="checkbox"
-              className="check-tag-uno"
-            />
-            <label htmlFor="check-tag-uno">Tag1</label>
-            <input
-              key={2}
-              onChange={handleInputChange}
-              value={"tag2"}
-              name="checkTag"
-              type="checkbox"
-              className="check-tag-due"
-            />
-            <label htmlFor="check-tag-due">Tag2</label>
-            <input
-              key={3}
-              onChange={handleInputChange}
-              value={"tag3"}
-              name="checkTag"
-              type="checkbox"
-              className="publish-control"
-            />
-            <label htmlFor="publish-control">Tag3</label>
+            {totalTags.map((tag, index) => {
+              <input
+                key={index}
+                onChange={handleInputChange}
+                value={tag}
+                name="checkTag"
+                type="checkbox"
+                className={`check-tag-${index}`}
+              />;
+              <label htmlFor={`check-tag-${index}`}>Tag{index}</label>;
+            })}
           </div>
 
-          <button>Crea</button>
+          <button className="btn btn-primary">Crea</button>
         </form>
 
         <hr />
@@ -225,16 +222,17 @@ function App() {
                       <span>{article.author}</span>
                       {/* <span>{article.published}</span> */}
                       <ul>
-                        {article.tags.map((tag, index) => (
+                        {/* {article.tags.map((tag, index) => (
                           <li key={index}>{tag}</li>
-                        ))}
+                        ))} */}
+                        <li>{article.tags}</li>
                       </ul>
                       <span>{article.content}</span>
                     </div>
                     <div className="edit-card">
                       <div className="delete-button">
                         <button
-                          className="button d-button"
+                          className="button d-button btn btn-danger"
                           onClick={() => deletePost(article.id)}
                         >
                           Elimina
@@ -257,6 +255,9 @@ function App() {
                             name="modify"
                             placeholder="Modifica"
                           />
+                          {/* MODAL */}
+
+                          {/* _________ */}
                         </div>
                       </div>
                     </div>
