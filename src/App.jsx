@@ -193,15 +193,21 @@ function App() {
 
           <div className="checkbox-tag-container">
             {totalTags.map((tag, index) => {
-              <input
-                key={index}
-                onChange={handleInputChange}
-                value={tag}
-                name="checkTag"
-                type="checkbox"
-                className={`check-tag-${index}`}
-              />;
-              <label htmlFor={`check-tag-${index}`}>Tag{index}</label>;
+              return (
+                <>
+                  <div className={`checkbox checkbox-${index}`}>
+                    <input
+                      key={index}
+                      onChange={handleInputChange}
+                      value={tag}
+                      name="checkTag"
+                      type="checkbox"
+                      className={`check-tag-${index}`}
+                    />
+                    <label htmlFor={`check-tag-${index}`}>{tag}</label>
+                  </div>
+                </>
+              );
             })}
           </div>
 

@@ -112,7 +112,17 @@ hr {
 }
 
 .checkbox-tag-container {
+  display: flex;
+  justify-content: center;
   margin-top: 1rem;
+}
+
+.checkbox {
+  margin: 0 1rem;
+}
+
+.checkbox input {
+  margin: 0.5rem;
 }
 
 .d-button {
