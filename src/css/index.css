@@ -125,6 +125,10 @@ hr {
   margin: 0.5rem;
 }
 
+.select-tag-name {
+  margin-top: 2rem;
+}
+
 .d-button {
   background-color: red;
   border-radius: 5px;

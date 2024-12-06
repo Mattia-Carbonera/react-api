@@ -86,7 +86,7 @@ function App() {
       image: e.target.image.value,
       category: e.target.category.value,
       content: e.target.content.value,
-      tags: [e.target.checked],
+      tags: checkedTags,
     });
     console.log(newArticleList);
 
@@ -135,6 +135,17 @@ function App() {
   const handleTitleChange = (e) => {
     // console.log(e.target.value);
     setModifyTitle(e.target.value);
+  };
+
+  let checkedTags = [];
+
+  const handleInputCheckbox = (e) => {
+    console.log(e.target.name);
+    console.log(e.target.checked);
+
+    if (e.target.checked) checkedTags.push(e.target.value);
+
+    return console.log(checkedTags);
   };
 
   return (
@@ -191,16 +202,16 @@ function App() {
             <option value="yes">Pubblica Articolo</option>
           </select>
 
+          <h3 className="select-tag-name">Select Tags</h3>
           <div className="checkbox-tag-container">
             {totalTags.map((tag, index) => {
               return (
                 <>
-                  <div className={`checkbox checkbox-${index}`}>
+                  <div key={index} className={`checkbox checkbox-${index}`}>
                     <input
-                      key={index}
-                      onChange={handleInputChange}
+                      onChange={handleInputCheckbox}
                       value={tag}
-                      name="checkTag"
+                      name={`tag-${tag}`}
                       type="checkbox"
                       className={`check-tag-${index}`}
                     />
