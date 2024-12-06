@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import "./css/App.css";
+const serverHosting = import.meta.env.VITE_SERVER_HOSTING;
+console.log(serverHosting);
 
 function App() {
   const [fetchDataPosts, setfetchDataPosts] = useState([]);
 
   const fetchPost = () => {
-    fetch("http://127.0.0.1:3000/posts/")
+    fetch(`${serverHosting}/posts/`)
       .then((res) => res.json())
       .then((data) => {
         const articlesArray = data[1];
@@ -46,7 +48,7 @@ function App() {
 
   // click handler
   const handleInputChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     const newArticlesData = {
       ...articleField,
       [e.target.name]: e.target.value,
@@ -84,7 +86,7 @@ function App() {
 
   // delete post
   const deletePost = (id) => {
-    fetch("http://127.0.0.1:3000/posts/" + id, {
+    fetch(`${serverHosting}/posts/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -95,7 +97,7 @@ function App() {
 
   // handle publish article select
   const handlerPublishArticle = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   // edit item handler
@@ -223,8 +225,8 @@ function App() {
                       <span>{article.author}</span>
                       {/* <span>{article.published}</span> */}
                       <ul>
-                        {article.tags.map((tag) => (
-                          <li>{tag}</li>
+                        {article.tags.map((tag, index) => (
+                          <li key={index}>{tag}</li>
                         ))}
                       </ul>
                       <span>{article.content}</span>
