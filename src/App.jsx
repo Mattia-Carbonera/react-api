@@ -222,7 +222,11 @@ function App() {
                       <h2>{article.title}</h2>
                       <span>{article.author}</span>
                       {/* <span>{article.published}</span> */}
-                      <span>{article.tags}</span>
+                      <ul>
+                        {article.tags.map((tag) => (
+                          <li>{tag}</li>
+                        ))}
+                      </ul>
                       <span>{article.content}</span>
                     </div>
                     <div className="edit-card">
